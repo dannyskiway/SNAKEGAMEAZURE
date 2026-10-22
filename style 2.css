@@ -1,0 +1,217 @@
+/* ==========================================================
+   Theme tokens
+   ========================================================== */
+:root {
+  --bg: #0f172a;
+  --panel: #1e293b;
+  --board: #111827;
+  --grid: #1f2937;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #22c55e;
+  --accent-dark: #16a34a;
+  --food: #f43f5e;
+  --radius: 16px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+/* Center everything on the screen, both axes */
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top, #1e293b 0%, var(--bg) 60%);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+.app {
+  /* Board size: the smaller of 90% viewport width or (viewport height minus header/footer room),
+     capped at 560px. This keeps the square board fully visible on any screen. */
+  --size: min(560px, 92vw, calc(100dvh - 190px));
+  width: var(--size);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ==========================================================
+   Header / scoreboard
+   ========================================================== */
+.hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.scores {
+  display: flex;
+  gap: 8px;
+}
+
+.score-box {
+  background: var(--panel);
+  border-radius: 10px;
+  padding: 6px 14px;
+  min-width: 72px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.score-box .label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.score-box .value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==========================================================
+   Board
+   ========================================================== */
+.board-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1; /* always square */
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+#board {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--board);
+  touch-action: none; /* stops the page scrolling while swiping on the board */
+}
+
+/* ==========================================================
+   Overlays (start / pause / game over)
+   ========================================================== */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.overlay h2 {
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  font-weight: 800;
+}
+
+.overlay p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.final strong {
+  color: var(--text);
+  font-size: 1.4rem;
+}
+
+.new-best {
+  color: #facc15 !important;
+  font-weight: 600;
+}
+
+.hint {
+  font-size: 0.85rem;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.6em;
+  padding: 0 6px;
+  margin: 0 2px;
+  border-radius: 6px;
+  background: var(--panel);
+  border: 1px solid #334155;
+  border-bottom-width: 3px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85em;
+  line-height: 1.6;
+}
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #052e16;
+  background: var(--accent);
+  border: none;
+  border-radius: 999px;
+  padding: 12px 32px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35);
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.btn:hover {
+  background: var(--accent-dark);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn:focus-visible {
+  outline: 3px solid #86efac;
+  outline-offset: 3px;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* Hide the swipe hint on devices with a real mouse/keyboard */
+@media (hover: hover) and (pointer: fine) {
+  .footer {
+    display: none;
+  }
+}
